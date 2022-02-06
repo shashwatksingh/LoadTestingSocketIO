@@ -22,12 +22,13 @@ const createClient = () => {
     },
   });
 
+  // emitting to a custom event in our server
   setInterval(() => {
-    socket.emit("HANDSHAKE_INITIATE", { data: "Hello fom the client side" });
+    socket.emit("BARK", { data: "Hello fom the client side" });
   }, EMIT_INTERVAL_IN_MS);
 
-  // Our server testing event is bark
-  socket.on("BARK", (data) => {
+  // Our server testing event bark, responds on this event
+  socket.on("WHOOF", (data) => {
     // console.log(data);
     packetsSinceLastReport++;
   });
