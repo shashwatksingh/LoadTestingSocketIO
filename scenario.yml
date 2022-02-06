@@ -1,0 +1,34 @@
+# my-scenario.yml
+config:
+    target: "http://localhost:5000"
+    phases:
+        - duration: 60
+          arrivalRate: 10
+          maxVusers: 5000
+          name: warm up
+    engines:
+        socketio-v3:
+          auth:
+              key: key
+
+scenarios:
+    - name: My sample scenario
+      engine: socketio-v3
+      flow:
+          # wait for the WebSocket upgrade (optional)
+          - think: 1
+
+          # basic emit to custom event on your server
+          - emit:
+                channel: "BARK"
+                data: "world"
+
+          # emit with acknowledgement
+          - emit:
+                channel: "ping"
+            acknowledge:
+                match:
+                    value: "pong"
+
+          # do nothing for 30 seconds then disconnect
+          - think: 30
